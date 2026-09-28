@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-ink: #0f1b2d;
+  --color-ink-soft: #33415a;
+  --color-muted: #647089;
+  --color-line: #e3ded4;
+  --color-paper: #faf8f4;
+  --color-card: #ffffff;
+  --color-accent: #b4232a;
+  --color-accent-dark: #8f1b21;
+  --color-accent-soft: #fbeaea;
+  --color-gold: #c99a3b;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4 Variable", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
+
+.container-page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 640px) {
+  .container-page {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Article body */
+.article {
+  --tw-prose-body: var(--color-ink-soft);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-counters: var(--color-accent);
+  --tw-prose-hr: var(--color-line);
+}
+.article h2,
+.article h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+.article img {
+  border-radius: 0.75rem;
+}
+.article a {
+  text-underline-offset: 3px;
+}
+
+/* Tiptap editor */
+.tiptap {
+  outline: none;
+  min-height: 420px;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #9aa3b5;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap img.ProseMirror-selectednode {
+  outline: 3px solid var(--color-accent);
+}
