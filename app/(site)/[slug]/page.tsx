@@ -23,7 +23,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const post = await getPublishedPostBySlug(slug);
   if (!post) return { title: "Not found", robots: { index: false } };
   const title = post.seoTitle || post.title;
-  const images = post.coverImage ? [{ url: post.coverImage, alt: post.coverAlt || post.title }] : undefined;
+  const images = post.coverImage
+    ? [{ url: post.coverImage, alt: post.coverAlt || post.title }]
+    : [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }];
   return {
     title,
     description: post.excerpt,
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       section: post.category || undefined,
       images,
     },
-    twitter: { card: images ? "summary_large_image" : "summary", title, description: post.excerpt },
+    twitter: { card: "summary_large_image", title, description: post.excerpt, images: images.map((i) => i.url) },
   };
 }
 
@@ -64,7 +66,7 @@ export default async function PostPage({ params }: { params: Params }) {
       mainEntityOfPage: url,
       image: post.coverImage ? [post.coverImage] : undefined,
       articleSection: post.category || undefined,
-      author: { "@type": "Organization", name: site.name, url: site.url },
+      author: { "@type": "Person", name: site.author.name, jobTitle: site.author.role, url: `${site.url}/about#author` },
       publisher: { "@type": "Organization", name: site.name, url: site.url },
     },
     {
@@ -105,7 +107,12 @@ export default async function PostPage({ params }: { params: Params }) {
           </h1>
           {post.excerpt && <p className="mt-5 text-lg leading-relaxed text-ink-soft">{post.excerpt}</p>}
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
-            <span className="font-medium text-ink">TexasFiles Editorial</span>
+            <span>
+              By{" "}
+              <Link href="/about#author" className="font-medium text-ink hover:text-accent">
+                {site.author.name}, {site.author.role}
+              </Link>
+            </span>
             {post.publishedAt && <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>}
             <span>{readingMinutes(post.content)} min read</span>
           </div>

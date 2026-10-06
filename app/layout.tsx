@@ -12,8 +12,13 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
-  openGraph: { siteName: site.name, locale: site.locale, type: "website" },
-  twitter: { card: "summary_large_image" },
+  openGraph: {
+    siteName: site.name,
+    locale: site.locale,
+    type: "website",
+    images: [{ url: site.ogImage, width: 1200, height: 630, alt: `${site.name}: ${site.tagline}` }],
+  },
+  twitter: { card: "summary_large_image", images: [site.ogImage] },
   alternates: { types: { "application/rss+xml": `${site.url}/rss.xml` } },
   robots: { index: true, follow: true },
 };

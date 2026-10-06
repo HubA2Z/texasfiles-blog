@@ -8,7 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  openGraph: { url: "/", title: "TexasFiles — Unmasking Medical Debt", description: site.description },
+  openGraph: { url: "/", title: "TexasFiles — Unmasking Medical Debt", description: site.description, images: [{ url: site.ogImage, width: 1200, height: 630 }] },
 };
 
 const pillars = [

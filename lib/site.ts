@@ -6,8 +6,12 @@ export const site = {
   description:
     "Explore our insightful blogs on Texas healthcare, insurance billing, and medical billing. Stay informed about the latest trends, coverage options, and important updates in the healthcare sector.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://texasfiles.in").replace(/\/$/, ""),
-  email: "editor@texasfiles.com",
-  location: "Austin, Texas",
+  author: {
+    name: "Ashim",
+    role: "Medical Billing Specialist",
+    bio: "Ashim works in US medical billing and revenue cycle management: following up on insurance claims, working denials and appeals, and checking claim status with payers such as UnitedHealthcare, Cigna, Optum, UMR and Meritain Health every day. TexasFiles turns that hands-on experience into plain-English guides for patients.",
+  },
+  ogImage: "/og.png",
   locale: "en_US",
 };
 

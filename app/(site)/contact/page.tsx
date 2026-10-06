@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
-import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Have a confusing medical bill? Share your story with the TexasFiles investigative team. Media inquiries and collaboration requests are also welcome.",
+    "Have a confusing medical bill? Send TexasFiles a question about a medical bill, an insurance denial, or an article. Collaboration requests are also welcome.",
   alternates: { canonical: "/contact" },
 };
 
 const faqs = [
   ["What we cover", "We focus on surprise billing, out-of-network charges, and complex insurance denials specific to Texas regulations."],
-  ["Source protection", "Your privacy is paramount. We never share your personal details without explicit consent."],
-  ["Our editorial process", "We investigate every credible submission to provide actionable, plain-English insights for our readers."],
+  ["Your privacy", "We never publish or share your personal details without your explicit consent."],
+  ["How we use questions", "Common reader questions become new guides, written without any identifying details."],
 ];
 
 export default function Contact() {
@@ -26,10 +25,10 @@ export default function Contact() {
               Unmasking Medical Debt <span className="text-accent">Together</span>
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              Have a confusing medical bill? Share your story with our investigative team. We break down the codes and appeal processes. Media inquiries and collaboration requests are also welcome.
+              Have a confusing medical bill? Send us your question. We read every message and use common questions to write new plain-English guides on billing codes, denials, and appeals. Collaboration requests are also welcome.
             </p>
             <p className="mt-6 text-sm text-muted">
-              Prefer email? <a className="font-semibold text-accent" href={`mailto:${site.email}`}>{site.email}</a>
+              We can’t give legal or medical advice about your specific case. Please don’t include policy numbers, Social Security numbers, or medical records.
             </p>
           </div>
           <div className="rounded-3xl border border-line bg-card p-6 sm:p-8">

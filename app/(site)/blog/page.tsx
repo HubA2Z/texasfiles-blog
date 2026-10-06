@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import PostCard from "@/components/PostCard";
 import { getCategories, getPublishedPosts } from "@/lib/posts";
+import { site } from "@/lib/site";
 
 const PER_PAGE = 12;
 
@@ -16,7 +17,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SP }): 
       "Step-by-step instructions, actionable line-item breakdowns, and up-to-date coverage of Texas-specific regulations to protect you from surprise medical bills.",
     alternates: { canonical: "/blog" },
     robots: filtered ? { index: false, follow: true } : undefined,
-    openGraph: { url: "/blog", title: "Guides & Articles | TexasFiles" },
+    openGraph: { url: "/blog", title: "Guides & Articles | TexasFiles", images: [{ url: site.ogImage, width: 1200, height: 630 }] },
   };
 }
 

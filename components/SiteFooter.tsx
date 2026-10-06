@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { site } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
@@ -27,15 +26,15 @@ export default function SiteFooter() {
         <div>
           <p className="text-sm font-semibold text-white">Get in touch</p>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><a className="hover:text-white" href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li>{site.location}</li>
-            <li>Independent consumer journalism</li>
+            <li><Link className="hover:text-white" href="/contact">Send us a message</Link></li>
+            <li><Link className="hover:text-white" href="/about#author">About the author</Link></li>
+            <li>Plain-English medical billing guides</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-3 py-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} TexasFiles · Independent consumer defense. No insurance jargon.</p>
+          <p>© {new Date().getFullYear()} TexasFiles · Plain-English guides. No insurance jargon.</p>
           <div className="flex gap-5">
             <Link className="hover:text-white" href="/terms-and-conditions">Terms & Conditions</Link>
             <Link className="hover:text-white" href="/privacy-policy">Privacy Policy</Link>
