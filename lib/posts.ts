@@ -1,6 +1,7 @@
 import "server-only";
 import { ensureSchema, hasDatabase, sql } from "./db";
 import { seedPosts } from "./seed-data";
+import { shippedPosts } from "./shipped-posts";
 
 export type Post = {
   id: number;
@@ -57,7 +58,7 @@ function toPost(r: Row): Post {
 // If no database is configured yet (e.g. first deploy), the public site still
 // works using the migrated articles, so Google never sees broken pages.
 function fallbackPosts(): Post[] {
-  return seedPosts
+  return [...seedPosts, ...shippedPosts]
     .map((p, i) => ({
       id: i + 1,
       slug: p.slug,

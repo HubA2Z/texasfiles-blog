@@ -1,6 +1,7 @@
 import "server-only";
 import postgres from "postgres";
 import { seedPosts } from "./seed-data";
+import { shippedPosts } from "./shipped-posts";
 
 // Works with Neon / Vercel Postgres / Supabase or any Postgres URL.
 const url =
@@ -84,6 +85,22 @@ async function migrate() {
                 'published', ${p.publishedAt}, ${p.publishedAt}, ${p.publishedAt})
         ON CONFLICT (slug) DO NOTHING`;
     }
+  }
+
+  // Articles shipped with the code: each is inserted once, then managed in /admin like any post.
+  await sql`
+    CREATE TABLE IF NOT EXISTS shipped_posts (
+      slug       TEXT PRIMARY KEY,
+      shipped_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+  for (const p of shippedPosts) {
+    const fresh = await sql`INSERT INTO shipped_posts (slug) VALUES (${p.slug}) ON CONFLICT DO NOTHING RETURNING slug`;
+    if (fresh.length === 0) continue;
+    await sql`
+      INSERT INTO posts (slug, title, excerpt, content, category, cover_image, cover_alt, seo_title, status, published_at, created_at, updated_at)
+      VALUES (${p.slug}, ${p.title}, ${p.excerpt}, ${p.content}, ${p.category}, ${p.coverImage}, ${p.coverAlt}, ${p.seoTitle ?? null},
+              'published', ${p.publishedAt}, ${p.publishedAt}, ${p.publishedAt})
+      ON CONFLICT (slug) DO NOTHING`;
   }
   });
 }
