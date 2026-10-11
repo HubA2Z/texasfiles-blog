@@ -2,6 +2,7 @@ import "server-only";
 import postgres from "postgres";
 import { seedPosts } from "./seed-data";
 import { shippedPosts } from "./shipped-posts";
+import { contentUpgrades } from "./content-upgrades";
 
 // Works with Neon / Vercel Postgres / Supabase or any Postgres URL.
 const url =
@@ -101,6 +102,19 @@ async function migrate() {
       VALUES (${p.slug}, ${p.title}, ${p.excerpt}, ${p.content}, ${p.category}, ${p.coverImage}, ${p.coverAlt}, ${p.seoTitle ?? null},
               'published', ${p.publishedAt}, ${p.publishedAt}, ${p.publishedAt})
       ON CONFLICT (slug) DO NOTHING`;
+  }
+
+  // Expanded versions of the original migrated articles. Only replaces a post whose content is
+  // still exactly the original seed text (i.e. never edited in /admin); afterwards it's a no-op.
+  for (const seed of seedPosts) {
+    const up = contentUpgrades[seed.slug];
+    if (!up) continue;
+    await sql`
+      UPDATE posts
+      SET content = ${up.content},
+          excerpt = CASE WHEN excerpt = ${seed.excerpt} THEN ${up.excerpt} ELSE excerpt END,
+          updated_at = now()
+      WHERE slug = ${seed.slug} AND md5(content) = md5(${seed.content})`;
   }
   });
 }

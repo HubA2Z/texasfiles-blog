@@ -1,6 +1,7 @@
 import "server-only";
 import { ensureSchema, hasDatabase, sql } from "./db";
 import { seedPosts } from "./seed-data";
+import { contentUpgrades } from "./content-upgrades";
 import { RETIRED_SLUGS } from "./site";
 
 const RETIRED = [...RETIRED_SLUGS];
@@ -66,8 +67,8 @@ function fallbackPosts(): Post[] {
       id: i + 1,
       slug: p.slug,
       title: p.title,
-      excerpt: p.excerpt,
-      content: p.content,
+      excerpt: contentUpgrades[p.slug]?.excerpt ?? p.excerpt,
+      content: contentUpgrades[p.slug]?.content ?? p.content,
       category: p.category,
       coverImage: p.coverImage,
       coverAlt: p.coverAlt,
