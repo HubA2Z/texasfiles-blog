@@ -1,7 +1,9 @@
 import "server-only";
 import { ensureSchema, hasDatabase, sql } from "./db";
 import { seedPosts } from "./seed-data";
-import { shippedPosts } from "./shipped-posts";
+import { RETIRED_SLUGS } from "./site";
+
+const RETIRED = [...RETIRED_SLUGS];
 
 export type Post = {
   id: number;
@@ -58,7 +60,8 @@ function toPost(r: Row): Post {
 // If no database is configured yet (e.g. first deploy), the public site still
 // works using the migrated articles, so Google never sees broken pages.
 function fallbackPosts(): Post[] {
-  return [...seedPosts, ...shippedPosts]
+  return seedPosts
+    .filter((p) => !RETIRED_SLUGS.has(p.slug))
     .map((p, i) => ({
       id: i + 1,
       slug: p.slug,
@@ -102,7 +105,7 @@ export async function getPublishedPosts(opts: { category?: string; q?: string; l
     return { posts: list.slice(offset, offset + limit), total: list.length };
   }
   const like = q ? `%${q.replace(/[%_\\]/g, (m) => "\\" + m)}%` : null;
-  const where = sql`status = 'published' AND published_at <= now()
+  const where = sql`status = 'published' AND published_at <= now() AND slug NOT IN ${sql(RETIRED)}
     ${category ? sql`AND lower(category) = lower(${category})` : sql``}
     ${like ? sql`AND (title ILIKE ${like} OR excerpt ILIKE ${like} OR content ILIKE ${like})` : sql``}`;
   const rows = await sql<Row[]>`SELECT * FROM posts WHERE ${where} ORDER BY published_at DESC, id DESC LIMIT ${limit} OFFSET ${offset}`;
@@ -130,7 +133,7 @@ export async function getCategories(): Promise<{ name: string; count: number }[]
   }
   return sql<{ name: string; count: number }[]>`
     SELECT category AS name, count(*)::int AS count FROM posts
-    WHERE status = 'published' AND published_at <= now() AND category <> ''
+    WHERE status = 'published' AND published_at <= now() AND category <> '' AND slug NOT IN ${sql(RETIRED)}
     GROUP BY category ORDER BY count DESC, category`;
 }
 
@@ -144,7 +147,7 @@ export async function getRelated(post: Post, n = 3): Promise<Post[]> {
 export async function getSitemapPosts(): Promise<{ slug: string; updatedAt: string }[]> {
   if (!(await ready())) return fallbackPosts().map((p) => ({ slug: p.slug, updatedAt: p.updatedAt }));
   const rows = await sql<{ slug: string; updated_at: Date }[]>`
-    SELECT slug, updated_at FROM posts WHERE status = 'published' AND published_at <= now() ORDER BY published_at DESC`;
+    SELECT slug, updated_at FROM posts WHERE status = 'published' AND published_at <= now() AND slug NOT IN ${sql(RETIRED)} ORDER BY published_at DESC`;
   return rows.map((r) => ({ slug: r.slug, updatedAt: new Date(r.updated_at).toISOString() }));
 }
 

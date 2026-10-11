@@ -4,14 +4,14 @@ import ContactForm from "./ContactForm";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Have a confusing medical bill? Send TexasFiles a question about a medical bill, an insurance denial, or an article. Collaboration requests are also welcome.",
+    "Questions about a medical bill, an insurance denial or one of our guides? Send TexasFiles a message. Corrections and article suggestions are welcome.",
   alternates: { canonical: "/contact" },
 };
 
 const faqs = [
-  ["What we cover", "We focus on surprise billing, out-of-network charges, and complex insurance denials specific to Texas regulations."],
-  ["Your privacy", "We never publish or share your personal details without your explicit consent."],
-  ["How we use questions", "Common reader questions become new guides, written without any identifying details."],
+  ["What we cover", "Medical bills, Explanations of Benefits, health insurance plan rules, claim denials and appeals, with a focus on Texas."],
+  ["Your privacy", "We use your details only to reply to you. We never publish your name or details without your explicit permission."],
+  ["Corrections", "If a guide is wrong or out of date, tell us. We review every correction request and update the article."],
 ];
 
 export default function Contact() {
@@ -20,15 +20,15 @@ export default function Contact() {
       <section className="border-b border-line">
         <div className="container-page grid gap-12 py-14 md:grid-cols-2 md:py-20">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">Share your story</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">Contact us</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
-              Unmasking Medical Debt <span className="text-accent">Together</span>
+              Questions, corrections <span className="text-accent">&amp; ideas</span>
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              Have a confusing medical bill? Send us your question. We read every message and use common questions to write new plain-English guides on billing codes, denials, and appeals. Collaboration requests are also welcome.
+              Questions about a confusing bill, a denial, or one of our guides? Send us a message. We read every one, and reader questions often become new articles. Corrections and suggestions are always welcome.
             </p>
             <p className="mt-6 text-sm text-muted">
-              We can’t give legal or medical advice about your specific case. Please don’t include policy numbers, Social Security numbers, or medical records.
+              We can't review individual bills or give legal advice, but we can point you to the right guide or agency.
             </p>
           </div>
           <div className="rounded-3xl border border-line bg-card p-6 sm:p-8">

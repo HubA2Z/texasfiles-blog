@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
     serverActions: { bodySizeLimit: "2mb" },
   },
   async redirects() {
-    return [{ source: "/feed", destination: "/rss.xml", permanent: true }];
+    return [
+      { source: "/feed", destination: "/rss.xml", permanent: true },
+      // Retired thin/duplicate posts, consolidated into stronger guides.
+      { source: "/blog-post", destination: "/top-private-health-insurance-options-in-texas", permanent: true },
+      { source: "/top-5-insurance-providers-covering-weight-loss-treatment", destination: "/how-to-choose-health-insurance-plan-total-cost", permanent: true },
+    ];
   },
   async headers() {
     return [

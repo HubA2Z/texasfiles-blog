@@ -6,12 +6,6 @@ export const site = {
   description:
     "Explore our insightful blogs on Texas healthcare, insurance billing, and medical billing. Stay informed about the latest trends, coverage options, and important updates in the healthcare sector.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://texasfiles.in").replace(/\/$/, ""),
-  author: {
-    name: "Ashim",
-    role: "Medical Billing Specialist",
-    bio: "Ashim works in US medical billing and revenue cycle management: following up on insurance claims, working denials and appeals, and checking claim status with payers such as UnitedHealthcare, Cigna, Optum, UMR and Meritain Health every day. TexasFiles turns that hands-on experience into plain-English guides for patients.",
-  },
-  ogImage: "/og.png",
   locale: "en_US",
 };
 
@@ -34,7 +28,14 @@ export const RESERVED_SLUGS = new Set([
   "_next",
   "favicon.ico",
   "icon.svg",
+  "author",
+  "editorial-policy",
+  "tools",
+  "ads.txt",
 ]);
+
+// Old posts that now 301 to a stronger guide (see next.config.ts). Kept out of the sitemap.
+export const RETIRED_SLUGS = new Set(["blog-post", "top-5-insurance-providers-covering-weight-loss-treatment"]);
 
 export function slugify(input: string): string {
   return input

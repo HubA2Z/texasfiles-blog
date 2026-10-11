@@ -24,17 +24,18 @@ export default function SiteFooter() {
           </ul>
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">Get in touch</p>
+          <p className="text-sm font-semibold text-white">About</p>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><Link className="hover:text-white" href="/contact">Send us a message</Link></li>
-            <li><Link className="hover:text-white" href="/about#author">About the author</Link></li>
-            <li>Plain-English medical billing guides</li>
+            <li><Link className="hover:text-white" href="/author/ashim">Our author</Link></li>
+            <li><Link className="hover:text-white" href="/editorial-policy">Editorial policy</Link></li>
+            <li><Link className="hover:text-white" href="/tools">Free tools</Link></li>
+            <li><Link className="hover:text-white" href="/contact">Contact us</Link></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-3 py-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} TexasFiles · Plain-English guides. No insurance jargon.</p>
+          <p>© {new Date().getFullYear()} TexasFiles · Independent guides to medical bills and health insurance.</p>
           <div className="flex gap-5">
             <Link className="hover:text-white" href="/terms-and-conditions">Terms & Conditions</Link>
             <Link className="hover:text-white" href="/privacy-policy">Privacy Policy</Link>

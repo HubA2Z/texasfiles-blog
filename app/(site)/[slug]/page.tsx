@@ -4,6 +4,8 @@ import { notFound, permanentRedirect } from "next/navigation";
 import PostCard from "@/components/PostCard";
 import { getPublishedPostBySlug, getRedirect, getRelated, getSitemapPosts } from "@/lib/posts";
 import { formatDate, readingMinutes, site } from "@/lib/site";
+import { author } from "@/lib/author";
+import { extractFaqs } from "@/lib/faq";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -23,9 +25,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const post = await getPublishedPostBySlug(slug);
   if (!post) return { title: "Not found", robots: { index: false } };
   const title = post.seoTitle || post.title;
-  const images = post.coverImage
-    ? [{ url: post.coverImage, alt: post.coverAlt || post.title }]
-    : [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }];
+  const images = post.coverImage ? [{ url: post.coverImage, alt: post.coverAlt || post.title }] : undefined;
   return {
     title,
     description: post.excerpt,
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       section: post.category || undefined,
       images,
     },
-    twitter: { card: "summary_large_image", title, description: post.excerpt, images: images.map((i) => i.url) },
+    twitter: { card: images ? "summary_large_image" : "summary", title, description: post.excerpt },
   };
 }
 
@@ -66,8 +66,8 @@ export default async function PostPage({ params }: { params: Params }) {
       mainEntityOfPage: url,
       image: post.coverImage ? [post.coverImage] : undefined,
       articleSection: post.category || undefined,
-      author: { "@type": "Person", name: site.author.name, jobTitle: site.author.role, url: `${site.url}/about#author` },
-      publisher: { "@type": "Organization", name: site.name, url: site.url },
+      author: { "@type": "Person", name: author.name, jobTitle: author.role, url: `${site.url}/author/${author.slug}`, sameAs: author.sameAs },
+      publisher: { "@type": "Organization", name: site.name, url: site.url, logo: { "@type": "ImageObject", url: `${site.url}/icon.svg` } },
     },
     {
       "@context": "https://schema.org",
@@ -79,6 +79,16 @@ export default async function PostPage({ params }: { params: Params }) {
       ],
     },
   ];
+
+  const faqs = extractFaqs(post.content);
+  if (faqs.length >= 2) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    } as never);
+  }
+  const reviewed = post.updatedAt && post.publishedAt && post.updatedAt > post.publishedAt ? post.updatedAt : post.publishedAt;
 
   const share = encodeURIComponent(url);
   const shareTitle = encodeURIComponent(post.title);
@@ -109,11 +119,15 @@ export default async function PostPage({ params }: { params: Params }) {
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
             <span>
               By{" "}
-              <Link href="/about#author" className="font-medium text-ink hover:text-accent">
-                {site.author.name}, {site.author.role}
+              <Link href={`/author/${author.slug}`} className="font-medium text-ink underline-offset-4 hover:underline">
+                {author.name}
               </Link>
+              , {author.role.toLowerCase()}
             </span>
-            {post.publishedAt && <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>}
+            {post.publishedAt && <span>Published <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time></span>}
+            {reviewed && reviewed !== post.publishedAt && (
+              <span>Last reviewed <time dateTime={reviewed}>{formatDate(reviewed)}</time></span>
+            )}
             <span>{readingMinutes(post.content)} min read</span>
           </div>
         </div>
@@ -137,7 +151,23 @@ export default async function PostPage({ params }: { params: Params }) {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        <aside className="mt-12 rounded-2xl border border-line bg-white p-5 text-sm text-ink-soft">
+        <section className="mt-12 flex gap-4 rounded-2xl border border-line bg-white p-5" aria-label="About the author">
+          <span aria-hidden className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-ink font-serif text-xl font-semibold text-white">
+            {author.name.charAt(0)}
+          </span>
+          <div className="text-sm">
+            <p className="font-semibold text-ink">
+              Written by <Link href={`/author/${author.slug}`} className="hover:text-accent">{author.name}</Link>
+            </p>
+            <p className="mt-1 leading-relaxed text-ink-soft">{author.shortBio}</p>
+            <p className="mt-2 text-xs text-muted">
+              Read our <Link href="/editorial-policy" className="underline underline-offset-2 hover:text-ink">editorial policy</Link>. Spotted something outdated?{" "}
+              <Link href="/contact" className="underline underline-offset-2 hover:text-ink">Tell us</Link>.
+            </p>
+          </div>
+        </section>
+
+        <aside className="mt-6 rounded-2xl border border-line bg-white p-5 text-sm text-ink-soft">
           <strong className="text-ink">Disclaimer:</strong> This article is for general informational purposes only and is not legal, medical, or financial advice. Verify details with your insurer, provider, or a qualified professional.
         </aside>
 

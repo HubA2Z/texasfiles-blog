@@ -8,7 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  openGraph: { url: "/", title: "TexasFiles — Unmasking Medical Debt", description: site.description, images: [{ url: site.ogImage, width: 1200, height: 630 }] },
+  openGraph: { url: "/", title: "TexasFiles — Unmasking Medical Debt", description: site.description },
 };
 
 const pillars = [
@@ -166,7 +166,7 @@ export default async function Home() {
           <div className="relative">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Our commitment</p>
             <h2 className="mx-auto mt-3 max-w-2xl font-serif text-3xl font-semibold text-white sm:text-4xl">
-              Independent. Investigative. For Texans.
+              Independent. Practical. For Texans.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-white/75">
               We exist to cut through bureaucratic jargon, protect you from surprise bills, and empower you with the knowledge to fight back against medical debt.

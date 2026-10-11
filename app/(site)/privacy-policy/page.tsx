@@ -1,6 +1,6 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -14,20 +14,20 @@ export default function Privacy() {
       <PageHero
         eyebrow="Our commitment to you"
         title="Privacy Policy"
-        intro="Your trust is paramount. This document outlines how TexasFiles collects, uses, and protects your data, ensuring transparency and compliance with advertising standards."
+        intro="How TexasFiles collects, uses and protects information when you visit the site or contact us."
       />
       <div className="container-page max-w-3xl py-12">
         <div className="article prose prose-lg max-w-none">
           <h2>Data Collection and Use</h2>
           <p>
-            TexasFiles uses Google AdSense to serve relevant, non-intrusive advertisements that help fund the site. We are committed to maintaining a balance between providing valuable content and supporting our operations through responsible advertising practices.
+            TexasFiles may use Google AdSense to show advertisements that support the site. Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You can opt out of personalized advertising by visiting Google's Ads Settings.
           </p>
           <p>
-            We do not sell your personal billing stories or contact information to third parties. Cookies are used solely to analyze traffic patterns, optimize your reading experience, and ensure the proper functioning of our site.
+            We do not sell the information you send us to third parties. We and our service providers may use cookies and similar technologies to keep the site working, understand how it's used, and show advertising.
           </p>
           <h2>Information You Send Us</h2>
           <p>
-            When you use our contact form, we receive the name, email address, and message you provide. We use it only to respond to you and to help us decide what guides to write, and we never publish identifying details without your explicit consent.
+            When you use our contact form, we receive the name, email address, and message you provide. We use it only to respond to you and to improve our guides, and we never publish identifying details without your explicit consent.
           </p>
           <h2>Contact</h2>
           <p>
