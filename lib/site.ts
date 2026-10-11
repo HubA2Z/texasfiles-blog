@@ -32,6 +32,7 @@ export const RESERVED_SLUGS = new Set([
   "icon.svg",
   "author",
   "editorial-policy",
+  "disclaimer",
   "tools",
   "ads.txt",
 ]);

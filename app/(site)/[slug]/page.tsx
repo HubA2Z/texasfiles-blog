@@ -125,7 +125,7 @@ export default async function PostPage({ params }: { params: Params }) {
               , {author.role.toLowerCase()}
             </span>
             {post.publishedAt && <span>Published <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time></span>}
-            {reviewed && reviewed !== post.publishedAt && (
+            {reviewed && post.publishedAt && formatDate(reviewed) !== formatDate(post.publishedAt) && (
               <span>Last reviewed <time dateTime={reviewed}>{formatDate(reviewed)}</time></span>
             )}
             <span>{readingMinutes(post.content)} min read</span>

@@ -8,7 +8,7 @@ export const revalidate = 300;
 // (homepage has no trailing slash, priority 1.0; everything else 0.5).
 const STATIC_LASTMOD = "2026-08-12T19:10:00.000Z";
 const staticPages = ["/blog", "/about", "/contact", "/privacy-policy", "/terms-and-conditions"];
-const newPages = ["/author/ashim", "/editorial-policy", "/tools", "/tools/out-of-pocket-calculator", "/tools/appeal-letter-generator"];
+const newPages = ["/author/ashim", "/editorial-policy", "/disclaimer", "/tools", "/tools/out-of-pocket-calculator", "/tools/appeal-letter-generator"];
 const NEW_LASTMOD = "2026-10-11T00:00:00.000Z";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
