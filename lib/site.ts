@@ -7,6 +7,8 @@ export const site = {
     "Explore our insightful blogs on Texas healthcare, insurance billing, and medical billing. Stay informed about the latest trends, coverage options, and important updates in the healthcare sector.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://texasfiles.in").replace(/\/$/, ""),
   locale: "en_US",
+  // Default social share image (1200x630) for pages without their own cover.
+  ogImage: "/og-default.png",
 };
 
 // Top-level paths that can never be used as an article slug.
